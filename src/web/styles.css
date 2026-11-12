@@ -370,6 +370,8 @@ button.vignette:active { transform: rotate(var(--angle, 0deg)) scale(0.97); }
 .trophee.obtenu .trophee-nom { color: var(--blanc); }
 .trophee.obtenu .trophee-pastille { background: var(--jaune); border: 3px solid var(--blanc); font-size: 26px; }
 .trophee.obtenu .lien { color: var(--blanc); }
+.trophee.obtenu .trophee-detail { color: var(--blanc); }
+.trophee-date { font-size: 12px; line-height: 1.35; }
 .trophee.pose { animation: pose 500ms var(--sortie) 250ms backwards; }
 @keyframes pose { from { transform: scale(1.25) rotate(-6deg); opacity: 0; } }
 

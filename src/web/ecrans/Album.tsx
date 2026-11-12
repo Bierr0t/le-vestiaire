@@ -170,9 +170,12 @@ export function FicheJoueur({ cle, onFermer }: { cle: string; onFermer: () => vo
             <li key={t.cle} className={`trophee${o ? ' obtenu' : ''}${neuf ? ' pose' : ''}`}>
               <span className="trophee-pastille" aria-hidden="true">{o ? t.emoji : '?'}</span>
               <span className="trophee-nom">{t.nom}</span>
-              <span className="trophee-detail">
-                {o ? <>Le {dateCourte(o.date)}. {o.partie && <LienPartie url={o.partie} />}</> : t.condition}
-              </span>
+              <span className="trophee-detail">{t.condition}</span>
+              {o && (
+                <span className="trophee-date">
+                  Décroché le {dateCourte(o.date)}. {o.partie && <LienPartie url={o.partie} />}
+                </span>
+              )}
             </li>
           );
         })}
