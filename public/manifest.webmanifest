@@ -1,0 +1,11 @@
+{
+  "name": "Le Vestiaire",
+  "short_name": "Vestiaire",
+  "description": "Le classement d'échecs du groupe",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#1D3BA8",
+  "theme_color": "#1D3BA8",
+  "lang": "fr",
+  "icons": [{ "src": "icone.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }]
+}

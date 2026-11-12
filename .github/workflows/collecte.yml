@@ -1,0 +1,61 @@
+name: Collecte et mise en ligne
+
+on:
+  schedule:
+    - cron: '7,37 * * * *'
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: vestiaire
+  cancel-in-progress: false
+
+jobs:
+  publier:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploiement.outputs.page_url }}
+    env:
+      DEPOT: https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Récupérer les parties déjà téléchargées
+        run: |
+          git clone --quiet --depth 1 --branch donnees "$DEPOT" donnees || mkdir -p donnees
+          rm -rf donnees/.git
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - run: npm ci
+      - run: npm test
+      - name: Collecter, calculer, notifier
+        run: npm run collecte
+      - run: npm run build
+
+      - name: Sauvegarder les données
+        run: |
+          cd donnees
+          git init --quiet -b donnees
+          git config user.name "Le Vestiaire"
+          git config user.email "actions@users.noreply.github.com"
+          git add -A
+          git commit --quiet -m "Données du $(date -u +%Y-%m-%dT%H:%MZ)"
+          git push --quiet --force "$DEPOT" donnees
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+      - id: deploiement
+        uses: actions/deploy-pages@v4
