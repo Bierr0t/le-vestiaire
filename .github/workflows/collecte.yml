@@ -2,7 +2,7 @@ name: Collecte et mise en ligne
 
 on:
   schedule:
-    - cron: '7,37 * * * *'
+    - cron: '8,38 * * * *'
   workflow_dispatch:
   push:
     branches: [main]
